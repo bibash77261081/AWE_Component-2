@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id', 'DESC')->get();
+        $products = Product::orderBy('id', 'DESC')->paginate(7);
         
         return view('product.list', ['products' => $products]);
     }
@@ -91,7 +91,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit');
     }
 
     /**

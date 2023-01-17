@@ -14,7 +14,7 @@
         <div class="d-flex flex-column py-4">
             <div class="h2 text-center">CRUD Operations</div>
             <div class="d-flex justify-content-between">
-                <div class="h4">Add Product</div>
+                <div class="h4">Edit Product</div>
                 <div>
                     <a href="{{ route('products.index') }}" class="btn btn-primary">Back</a>
                 </div>

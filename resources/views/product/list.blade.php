@@ -36,23 +36,25 @@
                     </tr>
 
                     @if($products -> isNotEmpty())
-                    foreach($products as $product)
-                    <tr>
+                    @foreach($products as $product)
+                    <tr valign="middle">
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->description }}</td>
                         <td>
-                            @if($products->image != '' && file_exists(public_path().'/uploads/products/'.$product->image))
-                            <img src="{{ url('uploads/products/'.$product->image) }}" alt="" width="50" height="50" class="rounded-circle">
+                            @if($product->image != '' && file_exists(public_path().'/uploads/products/'.$product->image))
+                            <img src="{{ url('uploads/products/'.$product->image) }}" alt="" width="50" height="50" class="rounded">
+                            @else
+                            <img src="{{url('assets/images/no-image.png')}}" alt="" width="50" height="50" class="rounded">
                             @endif
                         </td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
                             <a href="#" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                     </tr>
-                    @endforeach                    
+                    @endforeach
                     @else
                     <tr>
                         <td class="colspan-8">Products Not Found</td>
@@ -60,6 +62,9 @@
                     @endif                    
                 </table>
             </div>
+        </div>
+        <div class="mt-4">
+            {{ $products->links() }}
         </div>
     </div>
 </body>
