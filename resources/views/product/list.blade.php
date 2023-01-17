@@ -80,4 +80,5 @@
         if(confirm("Are you sure you want to delete?")){
             document.getElementById('product-edit-action-'+id).submit();
         }
+    }
 </script>

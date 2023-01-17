@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('id', 'DESC')->paginate(7);
-        
+
         return view('product.list', ['products' => $products]);
     }
 
@@ -58,7 +58,7 @@ class ProductController extends Controller
             if($request->image){
                 $ext = $request->image->getClientOriginalExtension();
                 $newFileName = time().'.'.$ext;
-                $request->image->move(public_path().'/uploads/products/',$newFileName); //This will save images on the given folder as a $newFileName 
+                $request->image->move(public_path().'/uploads/products/',$newFileName); //This will save images on the given folder as a $newFileName
                 $product->image = $newFileName;
                 $product->save();
             }
@@ -126,7 +126,7 @@ class ProductController extends Controller
                 $oldImage = $product->image;
                 $ext = $request->image->getClientOriginalExtension();
                 $newFileName = time().'.'.$ext;
-                $request->image->move(public_path().'/uploads/products/',$newFileName); //This will save images on the given folder as a $newFileName 
+                $request->image->move(public_path().'/uploads/products/',$newFileName); //This will save images on the given folder as a $newFileName
                 $product->image = $newFileName;
                 $product->save();
 
@@ -149,8 +149,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, Request $request)
     {
-        
+        $product = Product::findOrFail($product->id);
+        File::delete(public_path().'/uploads/products/'.$product->image);
+        $product->delete();
+
+        $request->session()->flash('success', 'Product deleted Successfully');
+        return redirect()->route('products.index');
     }
 }
