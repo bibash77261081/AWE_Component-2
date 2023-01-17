@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -14,7 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::orderBy('id', 'DESC')->get();
+        
+        return view('product.list', ['products' => $products]);
     }
 
     /**
@@ -24,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create');
     }
 
     /**
@@ -35,7 +38,38 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'image' => 'sometimes|image:png,jpeg,jpg'
+        ]);
+
+        if($validator->passes()){
+            //save data on database
+            $product = new Product();
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->description = $request->description;
+            $product->save();
+
+            //To save image on database
+            if($request->image){
+                $ext = $request->image->getClientOriginalExtension();
+                $newFileName = time().'.'.$ext;
+                $request->image->move(public_path().'/uploads/products/',$newFileName); //This will save images on the given folder as a $newFileName 
+                $product->image = $newFileName;
+                $product->save();
+            }
+
+            $request->session()->flash('success', 'Product Added Successfully');
+
+            return redirect()->route('products.index');
+        }
+        else{
+            //return error
+            return redirect()->route('products.create')->withErrors($validator)->withInput();
+        }
     }
 
     /**
