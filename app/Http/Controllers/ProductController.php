@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -91,7 +92,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit');
+        $product = Product::findOrFail($product->id);
+
+        return view('product.edit', ['product' => $product]);
     }
 
     /**
@@ -103,7 +106,41 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'image' => 'sometimes|image:png,jpeg,jpg'
+        ]);
+
+        if($validator->passes()){
+            //save data on database
+            $product = Product::find($product->id);
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->description = $request->description;
+            $product->save();
+
+            //To save image on database
+            if($request->image){
+                $oldImage = $product->image;
+                $ext = $request->image->getClientOriginalExtension();
+                $newFileName = time().'.'.$ext;
+                $request->image->move(public_path().'/uploads/products/',$newFileName); //This will save images on the given folder as a $newFileName 
+                $product->image = $newFileName;
+                $product->save();
+
+                File::delete(public_path().'/uploads/products/'.$oldImage);
+            }
+
+            $request->session()->flash('success', 'Product Updated Successfully');
+
+            return redirect()->route('products.index');
+        }
+        else{
+            //return error
+            return redirect()->route('products.edit', $product->id)->withErrors($validator)->withInput();
+        }
     }
 
     /**
@@ -114,6 +151,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        
     }
 }

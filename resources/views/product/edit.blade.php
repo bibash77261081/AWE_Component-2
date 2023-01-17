@@ -22,11 +22,12 @@
         </div>
         <div class="card border-0 shadow-lg">
             <div class="card-body">
-                <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('patch')
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" placeholder="Product Name" value="{{ old('name') }}">
+                        <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" placeholder="Product Name" value="{{ old('name', $product->name) }}">
                         @error('name')
                             <p class="invalid-feedback">{{ $message }}</p>
                         @enderror                        
@@ -34,7 +35,7 @@
 
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>
-                        <input class="form-control @error('price') is-invalid @enderror" type="text" name="price" id="price" placeholder="Price" value="{{ old('price') }}">
+                        <input class="form-control @error('price') is-invalid @enderror" type="text" name="price" id="price" placeholder="Price" value="{{ old('price', $product->price) }}">
                         @error('price')
                             <p class="invalid-feedback">{{ $message }}</p>
                         @enderror  
@@ -42,7 +43,7 @@
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="3">{{ old('description') }}</textarea>
+                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="3">{{ old('description', $product->description) }}</textarea>
                         @error('description')
                             <p class="invalid-feedback">{{ $message }}</p>
                         @enderror  
@@ -54,9 +55,15 @@
                         @error('image')
                             <p class="invalid-feedback">{{ $message }}</p>
                         @enderror  
+
+                        <div class="pt-3">
+                            @if($product->image != '' && file_exists(public_path().'/uploads/products/'.$product->image))
+                            <img src="{{ url('uploads/products/'.$product->image) }}" alt="" width="100" height="100" class="rounded">
+                            @endif
+                        </div>
                     </div>
 
-                    <button class="btn btn-primary">Add Product</button>
+                    <button class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>

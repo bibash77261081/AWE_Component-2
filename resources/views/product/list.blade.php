@@ -51,7 +51,12 @@
                         </td>
                         <td>
                             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="#" onClick="deleteProduct({{ $product->id }})" class="btn btn-danger btn-sm">Delete</a>
+                            
+                            <form id="product-edit-action-{{$product->id}}" action="{{ route('products.destroy', $product->id) }}" method="post">
+                                @csrf
+                                @method('delete')
+                            </form>
                         </td>
                     </tr>
                     @endforeach
@@ -69,3 +74,10 @@
     </div>
 </body>
 </html>
+
+<script>
+    function deleteProduct(id){
+        if(confirm("Are you sure you want to delete?")){
+            document.getElementById('product-edit-action-'+id).submit();
+        }
+</script>
