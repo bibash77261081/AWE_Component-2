@@ -9,20 +9,24 @@
 </head>
 <body>
     <div class="container">
-        <div class="d-flex flex-column py-4">
-            <div class="h2 text-center">CRUD Operations</div>            
-            <div class="d-flex justify-content-between">        
-                <div class="h4">Products</div>
-                <div>
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">Add Product</a>
-                </div>
+        <div class="row align-items-centre py-3">
+            <div class="col h2 text-center">CRUD Operations</div>
+        </div>
+
+        <div class="row justify-content-between">
+            <div class="col h4">Products</div>
+            <div class="col-auto">
+                <a href="{{ route('products.create') }}" class="btn btn-primary">Add Product</a>
             </div>
+        </div>
+
+        <div class="row align-items-centre p-3">
             @if(Session::has('success'))
-            <div class="alert alert-success text-center mt-5">
+            <div class="col alert alert-success text-center mt-3">
                 {{ Session::get('success') }}
             </div>
             @endif
-        </div>        
+        </div>
         <div class="card border-0 shadow-lg">
             <div class="card-body">
                 <table class="table table-striped">
@@ -52,7 +56,7 @@
                         <td>
                             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
                             <a href="#" onClick="deleteProduct({{ $product->id }})" class="btn btn-danger btn-sm">Delete</a>
-                            
+
                             <form id="product-edit-action-{{$product->id}}" action="{{ route('products.destroy', $product->id) }}" method="post">
                                 @csrf
                                 @method('delete')
@@ -64,7 +68,7 @@
                     <tr>
                         <td class="colspan-8">Products Not Found</td>
                     </tr>
-                    @endif                    
+                    @endif
                 </table>
             </div>
         </div>

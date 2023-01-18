@@ -48,11 +48,20 @@ class ProductController extends Controller
 
         if($validator->passes()){
             //save data on database
-            $product = new Product();
-            $product->name = $request->name;
-            $product->price = $request->price;
-            $product->description = $request->description;
-            $product->save();
+
+            //method #1
+            // $product = new Product();
+            // $product->name = $request->name;
+            // $product->price = $request->price;
+            // $product->description = $request->description;
+            // $product->save();
+
+            //method #2
+            // $product = new Product();
+            // $product->fill($request->post())->save();
+
+            //method #3
+            $product = Product::create($request->post())->save();
 
             //To save image on database
             if($request->image){
@@ -63,9 +72,9 @@ class ProductController extends Controller
                 $product->save();
             }
 
-            $request->session()->flash('success', 'Product Added Successfully');
+            //$request->session()->flash('success', 'Product Added Successfully');
 
-            return redirect()->route('products.index');
+            return redirect()->route('products.index')->with('success', 'Product Added Successfully');
         }
         else{
             //return error
@@ -92,7 +101,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::findOrFail($product->id);
+        //$product = Product::findOrFail($product->id);
 
         return view('product.edit', ['product' => $product]);
     }
@@ -115,11 +124,13 @@ class ProductController extends Controller
 
         if($validator->passes()){
             //save data on database
-            $product = Product::find($product->id);
-            $product->name = $request->name;
-            $product->price = $request->price;
-            $product->description = $request->description;
-            $product->save();
+            // $product = Product::find($product->id);
+            // $product->name = $request->name;
+            // $product->price = $request->price;
+            // $product->description = $request->description;
+            // $product->save();
+
+            $product->fill($request->post())->save();
 
             //To save image on database
             if($request->image){
@@ -133,9 +144,9 @@ class ProductController extends Controller
                 File::delete(public_path().'/uploads/products/'.$oldImage);
             }
 
-            $request->session()->flash('success', 'Product Updated Successfully');
+            //$request->session()->flash('success', 'Product Updated Successfully');
 
-            return redirect()->route('products.index');
+            return redirect()->route('products.index')->with('success', 'Product Updated Successfully');
         }
         else{
             //return error
@@ -151,11 +162,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product, Request $request)
     {
-        $product = Product::findOrFail($product->id);
+        //$product = Product::findOrFail($product->id);
         File::delete(public_path().'/uploads/products/'.$product->image);
         $product->delete();
 
-        $request->session()->flash('success', 'Product deleted Successfully');
-        return redirect()->route('products.index');
+        //$request->session()->flash('success', 'Product deleted Successfully');
+        return redirect()->route('products.index')->with('success', 'Product deleted Successfully');
     }
 }
