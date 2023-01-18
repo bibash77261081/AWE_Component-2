@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{route('home.index')}}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('home.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Products</a>
@@ -34,17 +34,27 @@
                     </li>
                 </ul>
                 <div class="row justify-content-between">
-                    <form action="" method="post" class="d-flex col-7" role="search">
-                        @csrf
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    @if (auth()->user())
+                        <form action="" method="post" class="d-flex col-9" role="search">
+                        @else
+                            <form action="" method="post" class="d-flex col-7" role="search">
+                    @endif
+                    @csrf
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
-                    <button class="btn btn-primary col-2">Login</button>
-                    <button class="btn btn-primary mx-2 col-2">Register</button>
+                    @if (auth()->user())
+                        <button class="btn btn-primary me-4 col-2">Logout</button>
+                    @else
+                        <button class="btn btn-primary col-2">Login</button>
+                        <button class="btn btn-primary mx-2 col-2">Register</button>
+                    @endif
                 </div>
             </div>
         </div>
     </nav>
+
+    @yield('content');
 
     <div class="container-fluid bg-dark text-light">
         <p class="text-center mb-0">
