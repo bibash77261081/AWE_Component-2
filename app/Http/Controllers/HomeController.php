@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         if(Auth::id()){
             if(Auth::user()->role == 'admin'){
-                return view('product.list');
+                return redirect()->route('products.index');
             }
             else{
                 return view('home.index');

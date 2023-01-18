@@ -20,9 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function () {
-    return view('home.index');
-})->middleware(['auth', 'verified'])->name('home.index');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,4 +41,4 @@ require __DIR__.'/auth.php';
 
 Route::resource('products', ProductController::class);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');
