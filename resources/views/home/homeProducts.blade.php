@@ -79,6 +79,10 @@
         </div>
     </div>
 
+    <div class="mt-4">
+        {{ $products->links() }}
+    </div>
+
     <div class="container-fluid bg-dark text-light">
         <p class="text-center mb-0">
             Copyright EZ Gadgets 2023 | All right reserved

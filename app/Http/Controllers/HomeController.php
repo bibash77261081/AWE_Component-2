@@ -36,4 +36,9 @@ class HomeController extends Controller
         return view('home.homeProducts', ['products' => $products]);
     }
 
+    public function displayCategories(){
+        $categories = Category::orderBy('name', 'ASC')->get();
+                return view('home.categories', ['categories' => $categories]);
+    }
+
 }
