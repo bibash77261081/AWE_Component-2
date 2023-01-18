@@ -29,7 +29,7 @@
                         <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" placeholder="Product Name" value="{{ old('name') }}">
                         @error('name')
                             <p class="invalid-feedback">{{ $message }}</p>
-                        @enderror                        
+                        @enderror
                     </div>
 
                     <div class="mb-3">
@@ -37,7 +37,7 @@
                         <input class="form-control @error('price') is-invalid @enderror" type="text" name="price" id="price" placeholder="Price" value="{{ old('price') }}">
                         @error('price')
                             <p class="invalid-feedback">{{ $message }}</p>
-                        @enderror  
+                        @enderror
                     </div>
 
                     <div class="mb-3">
@@ -45,7 +45,7 @@
                         <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="3">{{ old('description') }}</textarea>
                         @error('description')
                             <p class="invalid-feedback">{{ $message }}</p>
-                        @enderror  
+                        @enderror
                     </div>
 
                     <div class="mb-3">
@@ -53,7 +53,25 @@
                         <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image">
                         @error('image')
                             <p class="invalid-feedback">{{ $message }}</p>
-                        @enderror  
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select @error('category') is-invalid @enderror" name="category" id="category">
+                            @if($categories -> isNotEmpty())
+
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+
+                            @else
+                            <option selected>Category not Found</option>
+                            @endif
+                        </select>
+                        @error('category')
+                            <p class="invalid-feedback">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <button class="btn btn-primary">Add Product</button>

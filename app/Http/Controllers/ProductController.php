@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
@@ -28,7 +29,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.create');
+        $categories = Category::orderBy('id', 'ASC')->get();
+
+        return view('product.create', ['categories' => $categories]);
     }
 
     /**
@@ -43,25 +46,26 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
-            'image' => 'sometimes|image:png,jpeg,jpg'
+            'image' => 'sometimes|image:png,jpeg,jpg',
         ]);
 
         if($validator->passes()){
             //save data on database
 
             //method #1
-            // $product = new Product();
-            // $product->name = $request->name;
-            // $product->price = $request->price;
-            // $product->description = $request->description;
-            // $product->save();
+            $product = new Product();
+            $product->category_id = $request->category;
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->description = $request->description;
+            $product->save();
 
             //method #2
             // $product = new Product();
             // $product->fill($request->post())->save();
 
             //method #3
-            $product = Product::create($request->post())->save();
+            //$product = Product::create($request->post())->save();
 
             //To save image on database
             if($request->image){
@@ -102,8 +106,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //$product = Product::findOrFail($product->id);
+        $categories = Category::orderBy('id', 'ASC')->get();
 
-        return view('product.edit', ['product' => $product]);
+        return view('product.edit', ['product' => $product, 'categories' => $categories]);
     }
 
     /**

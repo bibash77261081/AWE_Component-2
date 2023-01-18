@@ -36,6 +36,7 @@
                         <th>Price</th>
                         <th>Description</th>
                         <th>Image</th>
+                        <th>Category</th>
                         <th>Action</th>
                     </tr>
 
@@ -53,6 +54,7 @@
                             <img src="{{url('assets/images/no-image.png')}}" alt="" width="50" height="50" class="rounded">
                             @endif
                         </td>
+                        <td>{{ $product->category->name }}</td>
                         <td>
                             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">Edit</a>
                             <a href="#" onClick="deleteProduct({{ $product->id }})" class="btn btn-danger btn-sm">Delete</a>
