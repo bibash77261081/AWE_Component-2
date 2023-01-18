@@ -54,7 +54,22 @@
         </div>
     </nav>
 
-    @yield('content');
+    <div class="container my-3">
+        <h2 class="text-center">EZ Gadgets Category</h2>
+        <div class="row">
+            @foreach ($categories as $category)
+            <div class="col-md-4">
+                <div class="card my-3" style="width: 18rem;">
+                    <img src="https://source.unsplash.com/800x450/?gadgets".{{$category->name}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $category->name }}</h5>
+                        <a href="#" class="btn btn-primary">View Products</a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        </div>
+    </div>
 
     <div class="container-fluid bg-dark text-light">
         <p class="text-center mb-0">

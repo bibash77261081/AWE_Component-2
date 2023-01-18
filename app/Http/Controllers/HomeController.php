@@ -21,7 +21,8 @@ class HomeController extends Controller
                 return redirect()->route('products.index');
             }
             else{
-                return view('home.index');
+                $categories = Category::orderBy('name', 'ASC')->get();
+                return view('home.index', ['categories' => $categories]);
             }
         }
         else{
