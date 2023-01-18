@@ -42,7 +42,7 @@
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                     @if (auth()->user())
-                    <button class="btn btn-primary me-3 col-2">Logout</button>
+                    <button class="btn btn-primary me-4 col-2">Logout</button>
                     @else
                     <button class="btn btn-primary col-2">Login</button>
                     <button class="btn btn-primary mx-2 col-2">Register</button>
