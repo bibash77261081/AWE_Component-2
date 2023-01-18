@@ -48,8 +48,8 @@
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->description }}</td>
                         <td>
-                            @if($product->image != '' && file_exists(public_path().'/uploads/products/'.$product->image))
-                            <img src="{{ url('uploads/products/'.$product->image) }}" alt="" width="50" height="50" class="rounded">
+                            @if($product->image != '' && file_exists(public_path('/uploads/products/'.$product->image)))
+                            <img src="{{ url('uploads/products/'.$product->image) }}" alt="" width="60" height="60" class="rounded">
                             @else
                             <img src="{{url('assets/images/no-image.png')}}" alt="" width="50" height="50" class="rounded">
                             @endif

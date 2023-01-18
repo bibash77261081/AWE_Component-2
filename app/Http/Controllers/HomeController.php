@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Home;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.index');
+        if(Auth::id()){
+            if(Auth::user()->role == 'admin'){
+                return view('product.list');
+            }
+            else{
+                return view('home.index');
+            }
+        }
+        else{
+            return redirect()-> back();
+        }
     }
 
     /**
