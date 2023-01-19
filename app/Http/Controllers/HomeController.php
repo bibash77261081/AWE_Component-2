@@ -23,7 +23,7 @@ class HomeController extends Controller
             }
             else{
                 if($search_text = $request->search){
-                    $products = Product::where('name','like','%'.$search_text.'%')->paginate(6);
+                    $products = Product::where('name','like','%'.$search_text.'%')->orderBy('name', 'ASC')->paginate(6);
                     return view('home.homeProducts', ['products' => $products]);
                 }
                 else{
@@ -39,7 +39,7 @@ class HomeController extends Controller
 
     public function displayProducts(Request $request){
         if($search_text = $request->search){
-            $products = Product::where('name','like','%'.$search_text.'%')->paginate(6);
+            $products = Product::where('name','like','%'.$search_text.'%')->orderBy('name', 'ASC')->paginate(6);
         }
         else{
             $products = Product::orderBy('id', 'ASC')->paginate(6);
@@ -47,9 +47,14 @@ class HomeController extends Controller
         return view('home.homeProducts', ['products' => $products]);
     }
 
-    public function displayCategories(){
-        $categories = Category::orderBy('name', 'ASC')->get();
-                return view('home.categories', ['categories' => $categories]);
+    public function displayCategories(Request $request){
+        if($search_text = $request->search){
+            $categories = Category::where('name','like','%'.$search_text.'%')->orderBy('name', 'ASC')->paginate(6);
+        }
+        else{
+            $categories = Category::orderBy('name', 'ASC')->paginate(6);
+        }
+         return view('home.categories', ['categories' => $categories]);
     }
 
 }
