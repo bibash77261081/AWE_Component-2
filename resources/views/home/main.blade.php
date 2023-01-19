@@ -44,7 +44,10 @@
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                     @if (auth()->user())
-                        <button class="btn btn-primary me-4 col-2">Logout</button>
+                        <form class="col-2 me-4 px-2" action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-primary"> Logout</button>
+                        </form>
                     @else
                         <button class="btn btn-primary col-2">Login</button>
                         <button class="btn btn-primary mx-2 col-2">Register</button>
