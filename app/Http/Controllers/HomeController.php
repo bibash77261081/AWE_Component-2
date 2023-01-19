@@ -15,15 +15,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if(Auth::id()){
             if(Auth::user()->role == 'admin'){
                 return redirect()->route('products.index');
             }
             else{
-                $categories = Category::orderBy('name', 'ASC')->get();
+                if($search_text = $request->search){
+                    $products = Product::where('name','like','%'.$search_text.'%')->paginate(6);
+                    return view('home.homeProducts', ['products' => $products]);
+                }
+                else{
+                    $categories = Category::orderBy('name', 'ASC')->get();
                 return view('home.index', ['categories' => $categories]);
+                }
             }
         }
         else{
@@ -31,8 +37,13 @@ class HomeController extends Controller
         }
     }
 
-    public function displayProducts(){
-        $products = Product::orderBy('id', 'ASC')->paginate(6);
+    public function displayProducts(Request $request){
+        if($search_text = $request->search){
+            $products = Product::where('name','like','%'.$search_text.'%')->paginate(6);
+        }
+        else{
+            $products = Product::orderBy('id', 'ASC')->paginate(6);
+        }
         return view('home.homeProducts', ['products' => $products]);
     }
 

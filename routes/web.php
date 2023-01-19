@@ -39,7 +39,6 @@ require __DIR__.'/auth.php';
 // Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
 // Route::patch('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 // Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-
 Route::resource('products', ProductController::class);
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');

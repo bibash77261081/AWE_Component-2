@@ -35,12 +35,12 @@
                 </ul>
                 <div class="row justify-content-between">
                     @if (auth()->user())
-                        <form action="" method="post" class="d-flex col-9" role="search">
+                        <form action="#" method="get" class="d-flex col-9" role="search">
                         @else
-                            <form action="" method="post" class="d-flex col-7" role="search">
+                            <form action="#" method="get" class="d-flex col-7" role="search">
                     @endif
                     @csrf
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" name="search" value="{{old('search')}}" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                     @if (auth()->user())
