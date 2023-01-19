@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::truncate();
+        // User::truncate();
 
-        User::factory(20)->create();
+        // User::factory(20)->create();
         Product::factory(10)->create([
-            'category_id' => '1'
+            'category_id' => '5'
         ]);
     }
 }
